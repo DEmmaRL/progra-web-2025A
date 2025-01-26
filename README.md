@@ -1,0 +1,1 @@
+This is the repo where I'll store the homework for the "Programacion para internet" college course. The idea is to create a new branch per each individual homework and make to myself more easy to track my progress and work.
