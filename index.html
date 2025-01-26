@@ -1,42 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compañías de Tecnología</title>
+    <title>A3</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
-
 <body class="bg-gray-100 text-center p-6">
-    
     <h1 class="text-3xl font-bold mb-4">Compañías de Tecnología</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-     
-        <a href="https://www.apple.com" target="_blank" class="block">
-            <img src="images/apple-company.webp" alt="Apple" class="mx-auto w-64">
-        </a>
-
-        <a href="https://www.google.com" target="_blank" class="block">
-            <img src="images/Google-me.jpg" alt="Google" class="mx-auto w-64">
-        </a>
-
-        <a href="https://www.microsoft.com" target="_blank" class="block">
-            <img src="images/microsoft-company.jpg" alt="Microsoft" class="mx-auto w-64">
-        </a>
-
-        <a href="https://www.amazon.com" target="_blank" class="block">
-            <img src="images/amazon-company.jpg" alt="Amazon" class="mx-auto w-64">
-        </a>
-
-        <a href="https://www.samsung.com" target="_blank" class="block">
-            <img src="images/samsung-company.png" alt="Samsung" class="mx-auto w-64">
-        </a>
-    
-    </div>
-
+    <table class="table-auto mx-auto bg-gray-300 border border-black">
+        <thead>
+            <tr>
+                <th class="border border-black bg-gray-200">Logo</th>
+                <th class="border border-black bg-gray-200">Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border border-black p-4 w-100 h-40">
+                    <a href="https://www.apple.com"  class=" ">
+                        <img src="images/apple-company.webp" alt="" class=" ">
+                    </a>
+                </td>
+                <td class="border border-black p-20  w-100 h-40">
+                    <a href="https://www.apple.com"  class="text-blue-500 text-2xl text-2xl">Apple</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="border border-black p-4 w-100 h-40">
+                    <a href="https://www.google.com"  class="block w-full h-full">
+                        <img src="images/Google-me.jpg" alt="Google" class="w-full h-full object-contain">
+                    </a>
+                </td>
+                <td class="border border-black w-100">
+                    <a href="https://www.google.com"  class="text-blue-500 text-2xl">Google</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="border border-black p-4 w-100 h-40">
+                    <a href="https://www.microsoft.com"  class="block w-full h-full">
+                        <img src="images/microsoft-company.jpg" alt="Microsoft" class="w-full h-full object-contain">
+                    </a>
+                </td>
+                <td class="border border-black w-100">
+                    <a href="https://www.microsoft.com"  class="text-blue-500 text-2xl">Microsoft</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="border border-black p-4 w-100 h-40">
+                    <a href="https://www.amazon.com"  class="block w-full h-full">
+                        <img src="images/amazon-company.jpg" alt="Amazon" class="w-full h-full object-contain">
+                    </a>
+                </td>
+                <td class="border border-black w-100">
+                    <a href="https://www.amazon.com"  class="text-blue-500 text-2xl">Amazon</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="border border-black p-4 w-100 h-40">
+                    <a href="https://www.samsung.com"  class="block w-full h-full">
+                        <img src="images/samsung-company.png" alt="Samsung" class="w-full h-full object-contain">
+                    </a>
+                </td>
+                <td class="border border-black w-100">
+                    <a href="https://www.samsung.com"  class="text-blue-500 text-2xl">Samsung</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
-
 </html>
