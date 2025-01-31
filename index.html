@@ -6,7 +6,7 @@
     <title>Chessboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-gray-200">
+<body class="flex justify-center items-center bg-gray-200">
     <table class="border-collapse border border-black">
         <tbody>
             <script>
@@ -14,7 +14,7 @@
                     document.write('<tr>');
                     for (var j= 0; j< 8; j++) {
                         var color = (i + j) % 2 == 0 ? 'bg-white' : 'bg-black';
-                        document.write(`<td class="w-16 h-16 ${color}"></td>`);
+                        document.write(`<td class="w-12 h-12 ${color}"></td>`);
                     }
                     document.write('</tr>');
                 }
