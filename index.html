@@ -1,24 +1,62 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-    <title>Chessboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A5</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex justify-center items-center bg-gray-200">
-    <table class="border-collapse border border-black">
-        <tbody>
-            <script>
-                for (var i = 0; i < 8; i++) {
-                    document.write('<tr>');
-                    for (var j= 0; j< 8; j++) {
-                        var color = (i + j) % 2 == 0 ? 'bg-white' : 'bg-black';
-                        document.write(`<td class="w-12 h-12 ${color}"></td>`);
-                    }
-                    document.write('</tr>');
-                }
-            </script>
-        </tbody>
-    </table>
+<body class="bg-gray-100 text-center p-6">
+    <form 
+        name="forma01" 
+        method="get" 
+        action="salvaDatos.php" 
+        class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col gap-4 items-center"
+        onsubmit="return validarFormulario()">
+        <input 
+            type="text" 
+            name="correo" 
+            id="correo" 
+            value="@" 
+            class="
+                shadow appearance-none border rounded w-full py-2 
+                px-3 text-gray-700 leading-tight focus:outline-none 
+                focus:shadow-outline">
+        <br>
+        <input 
+            type="text" 
+            name="pass" 
+            id="pass" 
+            placeholder="Escribe tu pass"
+            class="
+                shadow appearance-none border rounded w-full py-2 
+                px-3 text-gray-700 leading-tight focus:outline-none 
+                focus:shadow-outline">
+        <br>
+        <select name="rol" id="rol" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <option value="0">Selecciona el rol</option>
+            <option value="1">Gerente</option>
+            <option value="2">Ejecutivo</option>
+        </select>
+        <br>
+        <br>
+        <input type="submit" value="Enviar datos" class="bg-blue-500 w-[50%] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    </form>
+
+    <script>
+        function validarFormulario() {
+            var correo = document.getElementById("correo").value.trim();
+            var pass = document.getElementById("pass").value.trim();
+            var rol = document.getElementById("rol").value;
+
+            if (correo === "" || pass === "" || rol === "0") {
+                alert("Faltan campos por llenar");
+                return false;
+            }
+
+            alert("Campos llenos");
+            return true;
+        }
+    </script>
 </body>
+</html>
