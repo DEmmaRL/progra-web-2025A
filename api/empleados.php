@@ -31,6 +31,9 @@ switch ($method) {
         } elseif ($action == 'actualizar' && isset($_POST['id'])) {
             actualizarEmpleado($_POST);
         
+        } elseif ($action == 'validar_correo' && isset($_POST['correo'])) {
+            validarCorreo($_POST['correo']);
+            
         } else {
             jsonResponse(['success' => false, 'message' => 'Acción no válida']);
         
@@ -75,18 +78,41 @@ function getEmpleadoById($id) {
 }
 
 function crearEmpleado($data) {
-    // Validar datos requeridos
-    if (!isset($data['nombre']) || !isset($data['apellidos']) || !isset($data['correo']) || !isset($data['pass']) || !isset($data['rol'])) {
-        jsonResponse(['success' => false, 'message' => 'Faltan datos requeridos']);
+    if (!isset($data['nombre']) || !isset($data['apellidos']) 
+        || !isset($data['correo']) || !isset($data['pass']) 
+        || !isset($data['rol'])) {
+        
+            jsonResponse(['success' => false, 'message' => 'Faltan datos requeridos']);
     }
     
     try {
         $conn = getConnection();
+
+        $sql = $conn->prepare("SELECT COUNT(*) FROM empleados WHERE correo = ? AND eliminado = 0");
+        $sql->execute([$data['correo']]);
+
+        if ($sql->fetchColumn() > 0) {
+            jsonResponse(['success' => false, 'message' => 'El correo ya existe en la base de datos']);
+        }
+        
+        $password_encriptada = md5($data['pass']);
+        
+        // No sé si debíamos ncluir protección contra inyecciones SQL
+        $sql = $conn->prepare("INSERT INTO empleados (nombre, apellidos, correo, pass, rol, archivo_nombre, archivo_file) 
+                               VALUES (:nombre, :apellidos, :correo, :pass, :rol, :archivo_nombre, :archivo_file)");
+        
         $archivo_nombre = isset($data['archivo_nombre']) ? $data['archivo_nombre'] : '';
         $archivo_file = isset($data['archivo_file']) ? $data['archivo_file'] : '';
-        $sql = "INSERT INTO empleados (nombre, apellidos, correo, pass, rol, archivo_nombre, archivo_file) 
-            VALUES ('{$data['nombre']}', '{$data['apellidos']}', '{$data['correo']}', '{$data['pass']}', {$data['rol']}, '$archivo_nombre', '$archivo_file')";
-        $conn->exec($sql);
+        
+        $sql->bindParam(':nombre', $data['nombre']);
+        $sql->bindParam(':apellidos', $data['apellidos']);
+        $sql->bindParam(':correo', $data['correo']);
+        $sql->bindParam(':pass', $password_encriptada);
+        $sql->bindParam(':rol', $data['rol']);
+        $sql->bindParam(':archivo_nombre', $archivo_nombre);
+        $sql->bindParam(':archivo_file', $archivo_file);
+        
+        $sql->execute();
         $id = $conn->lastInsertId();
         
         jsonResponse(['success' => true, 'message' => 'Empleado creado correctamente', 'id' => $id]);
@@ -140,16 +166,29 @@ function actualizarEmpleado($data) {
 function eliminarEmpleado($id) {
     try {
         $conn = getConnection();
-        $sql = "UPDATE empleados SET eliminado = 1 WHERE id = $id";
-        $result = $conn->exec($sql);
+        $sql = $conn->prepare("UPDATE empleados SET eliminado = 1 WHERE id = :id");
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
+        $sql->execute();
 
-        if ($result > 0) {
+        if ($sql->rowCount() > 0) {
             jsonResponse(['success' => true, 'message' => 'Empleado eliminado correctamente']);
         } else {
             jsonResponse(['success' => false, 'message' => 'No se encontró el empleado o ya estaba eliminado']);
         }
     } catch(PDOException $e) {
         jsonResponse(['success' => false, 'message' => 'Error al eliminar empleado: ' . $e->getMessage()]);
+    }
+}
+
+function validarCorreo($correo) {
+    try {
+        $conn = getConnection();
+        $sql = $conn->prepare("SELECT COUNT(*) FROM empleados WHERE correo = ? AND eliminado = 0");
+        $sql->execute([$correo]);
+        $existe = ($sql->fetchColumn() > 0);
+        jsonResponse(['disponible' => !$existe]);
+    } catch(PDOException $e) {
+        jsonResponse(['success' => false, 'message' => 'Error al validar correo: ' . $e->getMessage()]);
     }
 }
 ?>
